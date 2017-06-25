@@ -5,5 +5,5 @@
 // Generated on: 2017.06.25 at 11:15:05 PM CEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://banka/mt910", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package narodna.mt910;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://paket/mt102", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package narodna.mt102;
