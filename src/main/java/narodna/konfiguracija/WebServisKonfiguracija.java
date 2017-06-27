@@ -1,14 +1,27 @@
 package narodna.konfiguracija;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.transport.http.MessageDispatcherServlet;
+import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
+import org.springframework.xml.xsd.SimpleXsdSchema;
+import org.springframework.xml.xsd.XsdSchema;
+import org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection;
 
 @EnableWs
 @Configuration
 public class WebServisKonfiguracija extends WsConfigurerAdapter {
 
-/*	@Bean
+	@Bean
 	public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
@@ -16,24 +29,14 @@ public class WebServisKonfiguracija extends WsConfigurerAdapter {
 
 		return new ServletRegistrationBean(servlet, "/ws/*");
 	}
-	/*@Bean(name = "nalogBean")
-	public DefaultWsdl11Definition defaultWsdl11Definition(@Qualifier("nalog") XsdSchema nalog){
-		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("nalogPort");
-		wsdl11Definition.setLocationUri("/ws");
-	//	wsdl11Definition.setTargetNamespace("http://Firma.com/ws/");
-	//	wsdl11Definition.setSchemaCollection(schemaCollection);
-		wsdl11Definition.setSchema(nalog);
-		return wsdl11Definition;
-	}*/
-	/*
-	@Bean(name = "banka")
+
+	@Bean(name = "narodna")
 	public DefaultWsdl11Definition defaultWsdl11Definition(CommonsXsdSchemaCollection schemaCollection)
 			throws Exception {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("bankaPort");
+		wsdl11Definition.setPortTypeName("narodnaPort");
 		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://banka/ws/");
+		wsdl11Definition.setTargetNamespace("http://narodna/ws/");
 		wsdl11Definition.setSchemaCollection(schemaCollection);
 		return wsdl11Definition;
 	}
@@ -42,7 +45,8 @@ public class WebServisKonfiguracija extends WsConfigurerAdapter {
 	@Bean
 	public CommonsXsdSchemaCollection schemeCollection() {
 		CommonsXsdSchemaCollection collection = new CommonsXsdSchemaCollection(
-				new Resource[] {new ClassPathResource("/nalog.xsd")});
+				new Resource[] {new ClassPathResource("/mt103.xsd"),new ClassPathResource("/mt900.xsd"),
+						new ClassPathResource("/mt910.xsd"), new ClassPathResource("/mt102.xsd")});
 		collection.setInline(true);
 		return collection;
 	}
@@ -50,7 +54,7 @@ public class WebServisKonfiguracija extends WsConfigurerAdapter {
 	@Bean
 	Jaxb2Marshaller jaxb2Marshaller() {
 		Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-		jaxb2Marshaller.setContextPaths("banka.nalog");
+		jaxb2Marshaller.setContextPaths("narodna.mt103", "narodna.mt900", "narodna.mt910", "narodna.mt102");
 		return jaxb2Marshaller;
 	}
 
@@ -65,9 +69,4 @@ public class WebServisKonfiguracija extends WsConfigurerAdapter {
 		return webServiceTemplate;
 	}
 
-	@Bean
-	@Qualifier("nalog")
-	public XsdSchema nalog() {
-		return new SimpleXsdSchema(new ClassPathResource("nalog.xsd"));
-	}*/
 }

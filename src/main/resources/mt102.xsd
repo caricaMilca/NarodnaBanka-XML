@@ -3,9 +3,7 @@
     targetNamespace="http://paket/mt102" xmlns:rtgs="http://paket/mt102" xmlns:xsT="http://paket/tipovi" elementFormDefault="qualified">
     <xs:import namespace="http://paket/tipovi"
         schemaLocation="tipovi.xsd" />
-    
-    
-    
+
     <xs:element name="getMT102Request">
         <xs:complexType>
             <xs:sequence>

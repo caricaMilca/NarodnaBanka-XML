@@ -11,4 +11,6 @@ public interface BankaRepozitorijum extends JpaRepository<Banka, Long> {
 
 	Banka findByTip(String string);
 
+	Banka findBySwiftKod(String swiftKodBankePoverioca);
+
 }
