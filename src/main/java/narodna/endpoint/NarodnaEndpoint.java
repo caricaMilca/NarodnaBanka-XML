@@ -97,7 +97,7 @@ System.out.println(" sssssssssssssssssssssssss");
 		webServiceTemplate.setDefaultUri(uri);
 		System.out.println(uri + " mt103 aaaaaaaaaaaaaaaaaaaaaaaa");
 		webServiceTemplate.marshalSendAndReceive(request);
-		webServiceTemplate.marshalSendAndReceive(request);
+		webServiceTemplate.marshalSendAndReceive(mt910res);
 		GetMT900Response mt900res = new GetMT900Response();
 		mt900res.setMT900(mt900);
 		return mt900res;
