@@ -82,6 +82,7 @@ public class NarodnaEndpoint {
 		webServiceTemplate.marshalSendAndReceive(mt910res);
 		GetMT900Response mt900res = new GetMT900Response();
 		mt900res.setMT900(mt900);
+		System.out.println("------Poslat mt900------");
 		
 		return mt900res;
 
