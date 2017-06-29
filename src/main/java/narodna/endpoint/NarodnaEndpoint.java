@@ -45,10 +45,7 @@ public class NarodnaEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetMT103Request")
 	@ResponsePayload
 	public GetMT900Response getMT103(@RequestPayload GetMT103Request request) {
-<<<<<<< HEAD
 		System.out.println("Usao u slanje mt103.");
-=======
->>>>>>> 99a9f6f6b3da5a52cb35eed7df965edd71089c6a
 		MT103 mt103 = request.getMT103();
 		
 		MT900 mt900 = new MT900((UUID.randomUUID().toString()), mt103.getSwifKodBankeDuznika(),
@@ -58,13 +55,8 @@ public class NarodnaEndpoint {
 		System.out.println("------Primljen mt103------");
 		Banka bankaPovjerioca = bankaRep.findBySwiftKod(mt103.getSwiftKodBankePoverioca());
 		Banka bankaDuznika = bankaRep.findBySwiftKod(mt103.getSwifKodBankeDuznika());
-<<<<<<< HEAD
 		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
-=======
->>>>>>> 99a9f6f6b3da5a52cb35eed7df965edd71089c6a
 		Racun obracunskiDuznika = racunRep.findByObracunskiAndBanka(true, bankaDuznika).get(0);
-		
-		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
 		webServiceTemplate.setDefaultUri(uri);
 		System.out.println("------Prosledjen mt103------");
 		webServiceTemplate.marshalSendAndReceive(request);
@@ -126,13 +118,10 @@ public class NarodnaEndpoint {
 		
 		MT910 mt910 = new MT910((UUID.randomUUID().toString()), zmt102.getSwiftKodBankePoverioca(), zmt102.getObracunskiRacunBankePoverioca(), zmt102.getIdPoruke(), zmt102.getDatumValute(), zmt102.getUkupanIznos(), zmt102.getSifraValute());
 		GetMT910Request mt910res = new GetMT910Request();
-<<<<<<< HEAD
 		mt910res.setMT900(mt910);
-		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
 		webServiceTemplate.setDefaultUri(uri);
 		System.out.println(uri + " mt102 aaaaaaaaaaaaaaaaaaaaaaaa");
 		webServiceTemplate.marshalSendAndReceive(request);
-=======
 		mt910res.setMT900(mt910);	
 		
 		boolean parsovano = validator.parse(mt910res, "mt910");
@@ -142,7 +131,6 @@ public class NarodnaEndpoint {
 		}
 		
 		System.out.println("------Poslat mt910------");
->>>>>>> 99a9f6f6b3da5a52cb35eed7df965edd71089c6a
 		webServiceTemplate.marshalSendAndReceive(mt910res);
 		GetMT900Response mt900res = new GetMT900Response();
 		mt900res.setMT900(mt900);
