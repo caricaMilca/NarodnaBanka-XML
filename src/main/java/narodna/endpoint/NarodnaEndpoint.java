@@ -45,7 +45,6 @@ public class NarodnaEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetMT103Request")
 	@ResponsePayload
 	public GetMT900Response getMT103(@RequestPayload GetMT103Request request) {
-		System.out.println("Usao u slanje mt103.");
 		MT103 mt103 = request.getMT103();
 		
 		MT900 mt900 = new MT900((UUID.randomUUID().toString()), mt103.getSwifKodBankeDuznika(),
@@ -120,7 +119,6 @@ public class NarodnaEndpoint {
 		GetMT910Request mt910res = new GetMT910Request();
 		mt910res.setMT900(mt910);
 		webServiceTemplate.setDefaultUri(uri);
-		System.out.println(uri + " mt102 aaaaaaaaaaaaaaaaaaaaaaaa");
 		webServiceTemplate.marshalSendAndReceive(request);
 		mt910res.setMT900(mt910);	
 		
