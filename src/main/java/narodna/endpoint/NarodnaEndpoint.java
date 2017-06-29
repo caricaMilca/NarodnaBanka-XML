@@ -23,6 +23,7 @@ import narodna.mt910.GetMT910Request;
 import narodna.mt910.MT910;
 import narodna.repozitorijumi.BankaRepozitorijum;
 import narodna.repozitorijumi.RacunRepozitorijum;
+import xmlTransformacije.SAXValidator;
 
 @Endpoint
 @Component
@@ -38,19 +39,36 @@ public class NarodnaEndpoint {
 
 	@Autowired
 	RacunRepozitorijum racunRep;
+	
+	SAXValidator validator = new SAXValidator();
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetMT103Request")
 	@ResponsePayload
 	public GetMT900Response getMT103(@RequestPayload GetMT103Request request) {
+<<<<<<< HEAD
 		System.out.println("Usao u slanje mt103.");
+=======
+>>>>>>> 99a9f6f6b3da5a52cb35eed7df965edd71089c6a
 		MT103 mt103 = request.getMT103();
+		
 		MT900 mt900 = new MT900((UUID.randomUUID().toString()), mt103.getSwifKodBankeDuznika(),
 				mt103.getObracunskiRacunBankeDuznika(), mt103.getIdPoruke(), mt103.getDatumValute(), mt103.getIznos(),
 				mt103.getSifraValute());
+		
+		System.out.println("------Primljen mt103------");
 		Banka bankaPovjerioca = bankaRep.findBySwiftKod(mt103.getSwiftKodBankePoverioca());
 		Banka bankaDuznika = bankaRep.findBySwiftKod(mt103.getSwifKodBankeDuznika());
+<<<<<<< HEAD
 		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
+=======
+>>>>>>> 99a9f6f6b3da5a52cb35eed7df965edd71089c6a
 		Racun obracunskiDuznika = racunRep.findByObracunskiAndBanka(true, bankaDuznika).get(0);
+		
+		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
+		webServiceTemplate.setDefaultUri(uri);
+		System.out.println("------Prosledjen mt103------");
+		webServiceTemplate.marshalSendAndReceive(request);
+		
 		Racun obracunskiPovjerioca = racunRep.findByObracunskiAndBanka(true, bankaPovjerioca).get(0);
 		if (obracunskiDuznika.novoStanje.compareTo(mt103.getIznos()) == 1) {
 			obracunskiDuznika.novoStanje.subtract(mt103.getIznos());
@@ -61,12 +79,19 @@ public class NarodnaEndpoint {
 		MT910 mt910 = new MT910((UUID.randomUUID().toString()), mt103.getSwiftKodBankePoverioca(), mt103.getObracunskiRacunBankePoverioca(), mt103.getIdPoruke(), mt103.getDatumValute(), mt103.getIznos(), mt103.getSifraValute());
 		GetMT910Request mt910res = new GetMT910Request();
 		mt910res.setMT900(mt910);
-		webServiceTemplate.setDefaultUri(uri);
-		System.out.println(uri + " mt103 aaaaaaaaaaaaaaaaaaaaaaaa");
-		webServiceTemplate.marshalSendAndReceive(request);
+		
+		boolean parsovano = validator.parse(mt910res, "mt910");
+		if(!parsovano){
+			System.out.println("----Nije validan mt910----");
+			return null;
+		}
+		
+		System.out.println("------Poslat mt910------");
 		webServiceTemplate.marshalSendAndReceive(mt910res);
 		GetMT900Response mt900res = new GetMT900Response();
 		mt900res.setMT900(mt900);
+		System.out.println("------Poslat mt900------");
+		
 		return mt900res;
 
 	}
@@ -77,13 +102,22 @@ public class NarodnaEndpoint {
 		System.out.println("Usao u slanje mt102.");
 		MT102 mt102 = request.getMT102();
 		ZaglavljeMT102 zmt102 = mt102.getZaglavljeMT102();
+		
 		MT900 mt900 = new MT900((UUID.randomUUID().toString()), zmt102.getSwiftKodBankeDuznika(),
 				zmt102.getObracunskiRacunBankeDuznika(), zmt102.getIdPoruke(), zmt102.getDatumValute(),
 				zmt102.getUkupanIznos(), zmt102.getSifraValute());
+		System.out.println("------Primljen mt102------");
 		Banka bankaPovjerioca = bankaRep.findBySwiftKod(zmt102.getSwiftKodBankePoverioca());
 		Banka bankaDuznika = bankaRep.findBySwiftKod(zmt102.getSwiftKodBankeDuznika());
 		Racun obracunskiDuznika = racunRep.findByObracunskiAndBanka(true, bankaDuznika).get(0);
+		
+		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
+		webServiceTemplate.setDefaultUri(uri);
+		System.out.println("------Prosledjen mt102------");
+		webServiceTemplate.marshalSendAndReceive(request);
+		
 		Racun obracunskiPovjerioca = racunRep.findByObracunskiAndBanka(true, bankaPovjerioca).get(0);
+		
 		if (obracunskiDuznika.novoStanje.compareTo(zmt102.getUkupanIznos()) == 1) {
 			obracunskiDuznika.novoStanje.subtract(zmt102.getUkupanIznos());
 			obracunskiPovjerioca.novoStanje.add(zmt102.getUkupanIznos());
@@ -92,14 +126,27 @@ public class NarodnaEndpoint {
 		
 		MT910 mt910 = new MT910((UUID.randomUUID().toString()), zmt102.getSwiftKodBankePoverioca(), zmt102.getObracunskiRacunBankePoverioca(), zmt102.getIdPoruke(), zmt102.getDatumValute(), zmt102.getUkupanIznos(), zmt102.getSifraValute());
 		GetMT910Request mt910res = new GetMT910Request();
+<<<<<<< HEAD
 		mt910res.setMT900(mt910);
 		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
 		webServiceTemplate.setDefaultUri(uri);
 		System.out.println(uri + " mt102 aaaaaaaaaaaaaaaaaaaaaaaa");
 		webServiceTemplate.marshalSendAndReceive(request);
+=======
+		mt910res.setMT900(mt910);	
+		
+		boolean parsovano = validator.parse(mt910res, "mt910");
+		if(!parsovano){
+			System.out.println("----Nije validan mt910----");
+			return null;
+		}
+		
+		System.out.println("------Poslat mt910------");
+>>>>>>> 99a9f6f6b3da5a52cb35eed7df965edd71089c6a
 		webServiceTemplate.marshalSendAndReceive(mt910res);
 		GetMT900Response mt900res = new GetMT900Response();
 		mt900res.setMT900(mt900);
+		
 		return mt900res;
 	}
 }
