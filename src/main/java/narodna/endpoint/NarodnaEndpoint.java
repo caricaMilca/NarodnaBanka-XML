@@ -42,7 +42,7 @@ public class NarodnaEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetMT103Request")
 	@ResponsePayload
 	public GetMT900Response getMT103(@RequestPayload GetMT103Request request) {
-System.out.println(" sssssssssssssssssssssssss");
+		System.out.println("Usao u slanje mt103.");
 		MT103 mt103 = request.getMT103();
 		MT900 mt900 = new MT900((UUID.randomUUID().toString()), mt103.getSwifKodBankeDuznika(),
 				mt103.getObracunskiRacunBankeDuznika(), mt103.getIdPoruke(), mt103.getDatumValute(), mt103.getIznos(),
@@ -50,7 +50,6 @@ System.out.println(" sssssssssssssssssssssssss");
 		Banka bankaPovjerioca = bankaRep.findBySwiftKod(mt103.getSwiftKodBankePoverioca());
 		Banka bankaDuznika = bankaRep.findBySwiftKod(mt103.getSwifKodBankeDuznika());
 		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
-		System.out.println(uri + " saljeeeeeeeeeeeeee naaa");
 		Racun obracunskiDuznika = racunRep.findByObracunskiAndBanka(true, bankaDuznika).get(0);
 		Racun obracunskiPovjerioca = racunRep.findByObracunskiAndBanka(true, bankaPovjerioca).get(0);
 		if (obracunskiDuznika.novoStanje.compareTo(mt103.getIznos()) == 1) {
@@ -75,6 +74,7 @@ System.out.println(" sssssssssssssssssssssssss");
 	@PayloadRoot(namespace = NAMESPACE_URI2, localPart = "getMT102Request")
 	@ResponsePayload
 	public GetMT900Response getMT102(@RequestPayload GetMT102Request request) {
+		System.out.println("Usao u slanje mt102.");
 		MT102 mt102 = request.getMT102();
 		ZaglavljeMT102 zmt102 = mt102.getZaglavljeMT102();
 		MT900 mt900 = new MT900((UUID.randomUUID().toString()), zmt102.getSwiftKodBankeDuznika(),
@@ -95,7 +95,7 @@ System.out.println(" sssssssssssssssssssssssss");
 		mt910res.setMT900(mt910);
 		String uri = "http://localhost:" + bankaPovjerioca.port + "/ws";
 		webServiceTemplate.setDefaultUri(uri);
-		System.out.println(uri + " mt103 aaaaaaaaaaaaaaaaaaaaaaaa");
+		System.out.println(uri + " mt102 aaaaaaaaaaaaaaaaaaaaaaaa");
 		webServiceTemplate.marshalSendAndReceive(request);
 		webServiceTemplate.marshalSendAndReceive(mt910res);
 		GetMT900Response mt900res = new GetMT900Response();
